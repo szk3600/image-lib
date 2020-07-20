@@ -1,26 +1,57 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React,{useState} from "react";
+import { ConfirmProvider } from "material-ui-confirm";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route
+} from "react-router-dom";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+import MenuAppBar from './components/MenuAppBar';
+import Member from './pages/Member';
+import Login from './pages/Login';
+import Album from './pages/Album';
+import Image from './pages/Image';
+
+export default function App() {
+  const [user,setUser] = useState (null);
+	return (
+    <ConfirmProvider>
+		<Router>
+			<div>
+				<MenuAppBar user={user} setUser={setUser} />
+				<Switch>
+					<Route path="/login">
+						<Login user={user} setUser={setUser} />
+					</Route>
+					<Route path="/about">
+						<About />
+					</Route>
+					<Route path="/member">
+						<Member user={user}/>
+					</Route>
+					<Route path="/album">
+						<Album user={user} editable={true}/>
+					</Route>
+					<Route path="/image">
+<Image user={user}/>
+					</Route>
+					<Route path="/">
+						<Home />
+          </Route>
+        </Switch>
+      </div>
+    </Router>
+    </ConfirmProvider>
   );
 }
 
-export default App;
+function Home(props) {
+  return (<div><h2>Home</h2></div>);
+}
+
+function About() {
+  return <h2>About</h2>;
+}
+
+
+
